@@ -218,10 +218,14 @@ config DONGLE_SCREEN_SYSTEM_ICON
         (0: macOS, 1: Linux, 2: Windows)
 
 config DONGLE_SCREEN_ROTATE_TOGGLE_KEYCODE
-    int "Keycode for increasing screen brightness"
+    int "Keycode for rotate display"
     default 112  # KC_F21
+    help
+      Keycode that rotate display (default: F21).
 
 config DONGLE_SCREEN_ROTATE_TOGGLE
     bool "Rotate Display"
     default y
+    help
+      Allows controlling the screen rotation via keyboard (e.g. F21).
 endif
