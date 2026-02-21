@@ -125,7 +125,8 @@ static enum display_orientation boot_base_orientation(void) {
 
 static int disp_set_orientation_init(void) {
     ori_a = boot_base_orientation();
-    ori_b = rotate_plus_270(ori_a);
+    //ori_b = rotate_plus_270(ori_a);
+	ori_b = DISPLAY_ORIENTATION_NORMAL;
 
 	toggled = false;
     return apply_orientation(ori_a);
