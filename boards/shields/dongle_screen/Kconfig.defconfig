@@ -216,4 +216,12 @@ config DONGLE_SCREEN_SYSTEM_ICON
     help
         The icon to display when the 'LGUI'/'RGUI' is pressed. Can be used to better match the Mod Widget to the underlying system.
         (0: macOS, 1: Linux, 2: Windows)
+
+config DONGLE_SCREEN_ROTATE_TOGGLE_KEYCODE
+    int "Keycode for increasing screen brightness"
+    default 112  # KC_F21
+
+config DONGLE_SCREEN_ROTATE_TOGGLE
+    bool "Rotate Display"
+    default y
 endif
