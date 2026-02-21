@@ -44,6 +44,17 @@ static enum display_orientation rotate_minus_90(enum display_orientation o) {
     }
 }
 
+static enum display_orientation rotate_plus_270(enum display_orientation o) {
+    /* +270° は +90°を3回でもいいけど、直接書く方が分かりやすい */
+    switch (o) {
+    case DISPLAY_ORIENTATION_NORMAL:      return DISPLAY_ORIENTATION_ROTATED_270;
+    case DISPLAY_ORIENTATION_ROTATED_90:  return DISPLAY_ORIENTATION_NORMAL;
+    case DISPLAY_ORIENTATION_ROTATED_180: return DISPLAY_ORIENTATION_ROTATED_90;
+    case DISPLAY_ORIENTATION_ROTATED_270: return DISPLAY_ORIENTATION_ROTATED_180;
+    default: return DISPLAY_ORIENTATION_NORMAL;
+    }
+}
+
 static lv_disp_rot_t to_lvgl_rot(enum display_orientation o) {
     switch (o) {
     case DISPLAY_ORIENTATION_NORMAL:
@@ -58,6 +69,8 @@ static lv_disp_rot_t to_lvgl_rot(enum display_orientation o) {
         return LV_DISP_ROT_NONE;
     }
 }
+
+static bool toggled;
 
 static void lvgl_full_refresh(enum display_orientation o) {
     lv_disp_t *d = lv_disp_get_default();
@@ -112,14 +125,9 @@ static enum display_orientation boot_base_orientation(void) {
 
 static int disp_set_orientation_init(void) {
     ori_a = boot_base_orientation();
+    ori_b = rotate_plus_270(ori_a);
 
-    /*
-     * ★ここがポイント
-     * 「横置きから左回転90°（縦長）にしたい」ので A-90° をBにする。
-     * これで A ↔ B の2状態トグルになり、3回押しは不要になる。
-     */
-    ori_b = rotate_minus_90(ori_a);
-
+	toggled = false;
     return apply_orientation(ori_a);
 }
 
@@ -134,8 +142,8 @@ static int rotate_key_listener(const zmk_event_t *eh) {
     }
 
     if (ev->keycode == CONFIG_DONGLE_SCREEN_ROTATE_TOGGLE_KEYCODE) {
-        enum display_orientation next = (current_ori == ori_a) ? ori_b : ori_a;
-        (void)apply_orientation(next);
+        toggled = !toggled;
+        (void)apply_orientation(toggled ? ori_b : ori_a);
     }
 
     return 0;
