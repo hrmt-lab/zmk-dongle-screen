@@ -219,7 +219,7 @@ config DONGLE_SCREEN_SYSTEM_ICON
 
 config DONGLE_SCREEN_ROTATE_TOGGLE_KEYCODE
     int "Keycode for rotate display"
-    default 112  # KC_F21
+    default 112
     help
       Keycode that rotate display (default: F21).
 
