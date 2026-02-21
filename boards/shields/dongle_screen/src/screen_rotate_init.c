@@ -18,13 +18,13 @@ static enum display_orientation current_ori;
 static enum display_orientation rotate_plus_90(enum display_orientation o) {
     switch (o) {
     case DISPLAY_ORIENTATION_NORMAL:
-        return DISPLAY_ORIENTATION_ROTATED_90;
-    case DISPLAY_ORIENTATION_ROTATED_90:
-        return DISPLAY_ORIENTATION_ROTATED_180;
-    case DISPLAY_ORIENTATION_ROTATED_180:
         return DISPLAY_ORIENTATION_ROTATED_270;
-    case DISPLAY_ORIENTATION_ROTATED_270:
+    case DISPLAY_ORIENTATION_ROTATED_90:
         return DISPLAY_ORIENTATION_NORMAL;
+    case DISPLAY_ORIENTATION_ROTATED_180:
+        return DISPLAY_ORIENTATION_ROTATED_90;
+    case DISPLAY_ORIENTATION_ROTATED_270:
+        return DISPLAY_ORIENTATION_ROTATED_180;
     default:
         return DISPLAY_ORIENTATION_NORMAL;
     }
@@ -107,7 +107,7 @@ static enum display_orientation boot_base_orientation(void) {
 
 static int disp_set_orientation_init(void) {
     ori_a = boot_base_orientation();
-    ori_b = rotate_plus_90(ori_a);
+    ori_b = rotate_minus_90(ori_a);
 
     /* Start in A */
     return apply_orientation(ori_a);
